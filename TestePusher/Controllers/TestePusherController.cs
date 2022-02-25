@@ -7,32 +7,25 @@ namespace TestePusher.Controllers
     [ApiController]
     [Route("[controller]")]
     public class TestePusherController : ControllerBase
-    {        
-        private const string Cluster = "your-cluster";
-        private const string ChannelName = "your-channel";
-        private const string EventName = "your-event";
-        private const string AppId = "your-app-id";
-        private const string AppKey = "your-app-key";
-        private const string AppSecret = "your-app-secret";
-
+    {
         [HttpPost]
         public async Task<ActionResult> HelloWorld()
         {
             var options = new PusherOptions
             {
-                Cluster = Cluster,
+                Cluster = PusherSettings.Cluster,
                 Encrypted = true
             };
 
             var pusher = new Pusher(
-                  AppId,
-                  AppKey,
-                  AppSecret,
+                  PusherSettings.AppId,
+                  PusherSettings.AppKey,
+                  PusherSettings.AppSecret,
                   options);
 
             var result = await pusher.TriggerAsync(
-              ChannelName,
-              EventName,
+              PusherSettings.ChannelName,
+              PusherSettings.EventName,
               new { message = "hello world" });
 
             return Ok(result);
